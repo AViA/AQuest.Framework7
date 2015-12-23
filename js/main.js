@@ -29,10 +29,10 @@ var mainView = AQuest.addView('.view-main', {
 /*Init Audio*/
 
 /*window.addEventListener("deviceready", function() {*/
-  var audio = new Sound('mus/forest-quest-music.wav');
+/*  var audio = new Sound('mus/forest-quest-music.wav');
   audio.loop('on');
   audio.volume = .0;
-  audio.play();
+  audio.play();*/
 /*}, false);*/
 /*! End*/
 
@@ -44,6 +44,8 @@ new Tap(playingOptions);
 mainOptions.addEventListener('tap', function (e) {showOptions();});
 playingOptions.addEventListener('tap', function (e) {showOptions();});
 /*! End*/
+
+var StoryData = JSON.parse(localStorage.getItem('data'));
 
 function showOptions() {
   AQuest.modal({
@@ -67,7 +69,7 @@ function showOptions() {
 }
 
 /*Answer divs touch events*/
-var answerTouch0 = $$('.answers-col')[0];
+/*var answerTouch0 = $$('.answers-col')[0];
 var answerTouch1 = $$('.answers-col')[1];
 new Tap(answerTouch0);
 new Tap(answerTouch1);
@@ -75,31 +77,76 @@ answerTouch0.addEventListener('touchstart', function (e) {
   $$(this).css('background', 'rgba(0,122,255,.15)');
 });
 answerTouch0.addEventListener('touchend', function (e) {
-    /*$$(this).css('background', '#fff');*/
-
-    /*$$(this).css('background', 'rgba(0,85,32,.85)');*/
-
-    $$(this).css('background', '#2e91ac');
+  $$(this).css('background', 'rgba(44,143,175,0.75)');
 });
 answerTouch1.addEventListener('touchstart', function (e) {
   $$(this).css('background', 'rgba(0,122,255,.15)');
 });
 answerTouch1.addEventListener('touchend', function (e) {
-    /*$$(this).css('background', '#fff');*/
-
-    /*$$(this).css('background', 'rgba(0,85,32,.85)');*/
-
-    $$(this).css('background', '#2e91ac');
-
-    /*$$(this).css('background-image', 'url("img/podlojka_option.png")');
-    $$(this).css('background-repeat', 'no-repeat');
-    $$(this).css('background-position', 'center center');
-    $$(this).css('-o-background-size', '100% 100%, auto');
-    $$(this).css('-moz-background-size', '100% 100%, auto');
-    $$(this).css('-webkit-background-size', '100% 100%, auto');
-    $$(this).css('background-size', '100% 100%, auto');
-    $$(this).css('box-shadow', '1px 2px 3px rgba(0,0,0,0.6)');*/
-
-    /*$$(this).toggleClass('.case-custom-bg');*/
-});
+  $$(this).css('background', 'rgba(44,143,175,0.75)');
+});*/
 /*! End*/
+
+
+var navigationId = 0;
+
+$$('.case-custom-bg').html(StoryData[navigationId].text)
+$$('#case1').html(StoryData[navigationId].case1)
+$$('#case2').html(StoryData[navigationId].case2)
+
+var leftOptionClick = $$('#case1')[0];
+var rightOptionClick = $$('#case2')[0];
+new Tap(leftOptionClick);
+new Tap(rightOptionClick);
+leftOptionClick.addEventListener('tap', function (e) {goInStory(e.srcElement);});
+rightOptionClick.addEventListener('tap', function (e) {goInStory(e.srcElement);});
+
+function goInStory(elem) {
+  if (elem.id == 'case1') {
+    navigationId = StoryData[navigationId].case1Link;
+    if (checkEndGame()) {return;}
+  } else {
+    navigationId = StoryData[navigationId].case2Link;
+    if (checkEndGame()) {return;}
+  }
+
+    $$('.content-block').css('opacity', '0');
+    $$(elem).css('background', 'rgba(0,122,255,.15)');
+    setTimeout(function(){
+      $$(elem).css('background', 'rgba(44,143,175,0.75)');
+    }, 120);
+
+  setTimeout(function(){
+    $$('.case-custom-bg').html(StoryData[navigationId].text);
+    $$('#case1').html(StoryData[navigationId].case1);
+    $$('#case2').html(StoryData[navigationId].case2);
+    $$('.content-block').css('opacity', '1');
+  }, 800);
+}
+
+function checkEndGame() {
+  if (navigationId === '7' || navigationId === '8' || navigationId === '10') {
+    $$('.content-block').css('opacity', '0');
+
+    setTimeout(function(){
+      $$('.content-block .row').html(
+        '<div class="col-100 answers-col">' +
+          '<div class="answers-span">Teh end!</div>' +
+        '</div>'
+      );
+      $$('.case-custom-bg').html(StoryData[navigationId].text);
+      $$('.content-block').css('opacity', '1');
+
+      var answerTouchEnd = $$('.answers-col')[0];
+      new Tap(answerTouchEnd);
+      answerTouchEnd.addEventListener('touchstart', function (e) {
+        $$(this).css('background', 'rgba(0,122,255,.15)');
+      });
+      answerTouchEnd.addEventListener('touchend', function (e) {
+        $$(this).css('background', 'rgba(44,143,175,0.75)');
+      });
+    }, 800);
+    return true;
+  }
+  return false;
+}

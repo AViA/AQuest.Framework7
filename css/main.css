@@ -42,16 +42,18 @@
   width: 50%;
   left: 25%;
   box-shadow: 0 0 4px 0 rgba(0,0,0,0.6);
-  top: 20%;
 }
 
 .main-play-button {
+  top: 20%;
 }
 
 .main-options-button {
+  top: 25%;
 }
 
 .main-quit-button {
+  top: 30%;
 }
 
 .navbar-custom-bg {
@@ -163,6 +165,12 @@ input[type="range"]::-webkit-slider-thumb {
   padding-top: 6%;
 }
 
+.banner-space {
+  width: 100%;
+  height: 8%;
+  padding-top: 3%;
+}
+
 .answers-block {
   margin-top: -20px;
 }
@@ -175,7 +183,7 @@ input[type="range"]::-webkit-slider-thumb {
   text-align: center;
   border: 2px solid #5fce82;
   padding: 5px;
-  height: 8.7em !important;
+  height: 9.5em !important;
   display: table;
   box-shadow: 1px 2px 3px rgba(0,0,0,0.6);
   border-radius: 2px;
@@ -219,6 +227,11 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 /*Customizing predefined framework7 styles*/
+.content-block {
+  -webkit-transition-duration: 800ms;
+  transition-duration: 800ms;
+}
+
 .navbar .left {
   margin: 25px 0 0 15px;
 }
