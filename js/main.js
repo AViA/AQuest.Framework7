@@ -64,6 +64,16 @@ $$('.case-custom-bg').html(StoryData[navigationId].text)
 $$('#case1').html(StoryData[navigationId].case1)
 $$('#case2').html(StoryData[navigationId].case2)
 
+
+$$(document).on('pageInit', '.page[data-page="playing"]', function (e) {
+    if ($$('#case1').height() > $$('#case2').height()) {
+      $$('#case2').css('height', $$('#case1').height());
+    } else {
+      $$('#case1').css('height', $$('#case2').height());
+    }
+})
+
+
 var leftOptionClick = $$('#case1')[0];
 var rightOptionClick = $$('#case2')[0];
 new Tap(leftOptionClick);
@@ -90,6 +100,15 @@ function goInStory(elem) {
     $$('.case-custom-bg').html(StoryData[navigationId].text);
     $$('#case1').html(StoryData[navigationId].case1);
     $$('#case2').html(StoryData[navigationId].case2);
+
+    var case1Height = $$('#case1').css('height');
+    var case2Height = $$('#case2').css('height');
+    if (case1Height > case2Height) {
+      $$('#case2').css('height', case1Height);
+    } else {
+      $$('#case1').css('height', case2Height);
+    }
+
     $$('.content-block').css('opacity', '1');
   }, 800);
 }
@@ -100,10 +119,13 @@ function checkEndGame() {
 
     setTimeout(function(){
       $$('.content-block .row').html(
-        '<div class="col-100 answers-col">' +
-          '<div class="answers-span">Teh end!</div>' +
-        '</div>'
+        '<a href="#home" class="back teh-end">' +
+          '<div class="col-100 answers-col">' +
+            '<div class="answers-span">Teh end!</div>' +
+          '</div>' +
+        '</a>'
       );
+
       $$('.case-custom-bg').html(StoryData[navigationId].text);
       $$('.content-block').css('opacity', '1');
 
