@@ -26,24 +26,13 @@ var $$ = Dom7;
 var mainView = AQuest.addView('.view-main', {
   domCache: true
 });
-/*Init Audio*/
 
-/*window.addEventListener("deviceready", function() {*/
-/*  var audio = new Sound('mus/forest-quest-music.wav');
-  audio.loop('on');
-  audio.volume = .0;
-  audio.play();*/
-/*}, false);*/
-/*! End*/
-
-/*Options buttons touch eventHandlers*/
 var mainOptions = $$('.main-options-button')[0];
 var playingOptions = $$('.right-navbar-custom-bg')[0];
 new Tap(mainOptions);
 new Tap(playingOptions);
 mainOptions.addEventListener('tap', function (e) {showOptions();});
 playingOptions.addEventListener('tap', function (e) {showOptions();});
-/*! End*/
 
 var StoryData = JSON.parse(localStorage.getItem('data'));
 
@@ -67,25 +56,6 @@ function showOptions() {
   volumeEvent.addEventListener('touchmove', function (e) { audio.volume = this.value; });
   volumeEvent.addEventListener('tap', function (e) { audio.volume = this.value; });
 }
-
-/*Answer divs touch events*/
-/*var answerTouch0 = $$('.answers-col')[0];
-var answerTouch1 = $$('.answers-col')[1];
-new Tap(answerTouch0);
-new Tap(answerTouch1);
-answerTouch0.addEventListener('touchstart', function (e) {
-  $$(this).css('background', 'rgba(0,122,255,.15)');
-});
-answerTouch0.addEventListener('touchend', function (e) {
-  $$(this).css('background', 'rgba(44,143,175,0.75)');
-});
-answerTouch1.addEventListener('touchstart', function (e) {
-  $$(this).css('background', 'rgba(0,122,255,.15)');
-});
-answerTouch1.addEventListener('touchend', function (e) {
-  $$(this).css('background', 'rgba(44,143,175,0.75)');
-});*/
-/*! End*/
 
 
 var navigationId = 0;
@@ -150,3 +120,13 @@ function checkEndGame() {
   }
   return false;
 }
+
+
+
+
+
+
+
+
+zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
