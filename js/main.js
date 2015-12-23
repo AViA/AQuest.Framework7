@@ -120,13 +120,3 @@ function checkEndGame() {
   }
   return false;
 }
-
-
-
-
-
-
-
-
-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
