@@ -47,7 +47,7 @@ setTimeout(function() {
 /*! End*/
 
 /*Init Audio*/
-var audio, audioVolumeValue = 0.5;
+var audio, audioVolumeValue = 0.75;
 window.addEventListener("deviceready", function() {
   audio = new Media('mus/forest-quest-music.wav');
   audio.loop('on');
@@ -76,7 +76,7 @@ playingOptions.addEventListener('tap', function (e) { e.preventDefault(); showOp
 /*Game Init*/
 newGame();
 /*! End*/
-
+var doubleTap = false;
 function newGame() {
 
   $$('.main-play-button .test_').html('Play');
@@ -84,8 +84,10 @@ function newGame() {
   setTimeout(function() {
     navigationId = 0;
     $$('.content-block .row').html(
-      '<div class="col-50 no-gutter answers-col"><div class="answers-span" id="case1"></div></div>' +
-      '<div class="col-50 no-gutter answers-col"><div class="answers-span" id="case2"></div></div>'
+      /*'<div class="col-50 no-gutter answers-col"><div class="answers-span" id="case1"></div></div>' +
+      '<div class="col-50 no-gutter answers-col"><div class="answers-span" id="case2"></div></div>'*/
+      '<div class="col-50 no-gutter answers-col answers-span"><div class="answ-center" id="case1"></div></div>' +
+      '<div class="col-50 no-gutter answers-col answers-span"><div class="answ-center" id="case2"></div></div>'
     );
 
     $$('.case-custom-bg').html(StoryData[navigationId].text);
@@ -97,8 +99,26 @@ function newGame() {
     var rightOptionClick = $$('#case2')[0];
     new Tap(leftOptionClick);
     new Tap(rightOptionClick);
-    leftOptionClick.addEventListener('tap', function (e) {goInStory(e.srcElement);});
-    rightOptionClick.addEventListener('tap', function (e) {goInStory(e.srcElement);});
+    leftOptionClick.addEventListener('tap', function (e) {
+    $$('#case1').attr('disabled', 'disabled');
+    $$('#case2').attr('disabled', 'disabled');
+      setTimeout(function() {
+        $$('#case1').removeAttr('disabled');
+        $$('#case2').removeAttr('disabled');
+      }, 1600);
+      e.preventDefault();
+      goInStory(e.srcElement);
+    });
+    rightOptionClick.addEventListener('tap', function (e) {
+    $$('#case1').attr('disabled', 'disabled');
+    $$('#case2').attr('disabled', 'disabled');
+      setTimeout(function() {
+        $$('#case1').removeAttr('disabled');
+        $$('#case2').removeAttr('disabled');
+      }, 1600);
+      e.preventDefault();
+      goInStory(e.srcElement);
+    });
   }, 200);
 }
 
@@ -126,6 +146,7 @@ function showOptions() {
 }
 
 function goInStory(elem) {
+  $$('.content-block').css('opacity', '0');
   if (elem.id == 'case1') {
     navigationId = StoryData[navigationId].case1Link;
     if (checkEndGame()) {return;}
@@ -134,26 +155,23 @@ function goInStory(elem) {
     if (checkEndGame()) {return;}
   }
 
-    $$('.content-block').css('opacity', '0');
-    $$(elem).css('background', 'rgba(0,122,255,.15)');
-    setTimeout(function(){
-      $$(elem).css('background', 'rgba(44,143,175,0.75)');
-    }, 120);
+  /*$$(elem).css('background', 'rgba(0,122,255,.15)');
+  setTimeout(function(){
+    $$(elem).css('background', 'rgba(44,143,175,0.75)');
+  }, 120);*/
 
   setTimeout(function(){
     $$('.case-custom-bg').html(StoryData[navigationId].text);
     $$('#case1').html(StoryData[navigationId].case1);
     $$('#case2').html(StoryData[navigationId].case2);
 
-    var case1Height = $$('#case1').css('height');
-    var case2Height = $$('#case2').css('height');
-    if (case1Height > case2Height) {
+    /*if (case1Height > case2Height) {
       $$('#case2').css('height', case1Height);
     } else {
       $$('#case1').css('height', case2Height);
-    }
-
-    $$('.content-block').css('opacity', '1');
+    }*/
+    fixAnswerBlockHeights();
+    setTimeout(function(){ $$('.content-block').css('opacity', '1'); }, 10);
   }, 800);
 }
 
@@ -165,11 +183,9 @@ function checkEndGame() {
 
     setTimeout(function(){
       $$('.content-block .row').html(
-        '<a href="" class="teh-end">' +
-          '<div class="col-100 answers-col">' +
-            '<div class="answers-span">Teh end!</div>' +
-          '</div>' +
-        '</a>'
+          '<div class="col-100 answers-col answers-span">' +
+            '<div class="answ-center">Teh end!</div>' +
+          '</div>'
       );
 
       $$('.case-custom-bg').html(StoryData[navigationId].text);
@@ -187,7 +203,7 @@ function checkEndGame() {
         setTimeout(function(){
           mainView.router.back();
           newGame();
-        }, 1000)
+        }, 100)
       });
     }, 800);
     return true;
@@ -196,6 +212,8 @@ function checkEndGame() {
 }
 
 function fixAnswerBlockHeights () {
+  $$('#case1').css('height', 'auto');
+  $$('#case2').css('height', 'auto');
   if ($$('#case1').height() > $$('#case2').height()) {
     $$('#case2').css('height', $$('#case1').height());
   } else {
