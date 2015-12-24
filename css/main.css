@@ -1,5 +1,5 @@
 .main-custom-bg {
-  background-image: url("../img/back_2732.png");
+  background-image: url("../img/back_768x1024.png");
   background-repeat:no-repeat;
   background-position:center center;
   -o-background-size: 100% 100%, auto;
@@ -9,7 +9,7 @@
 }
 
 .playing-custom-bg {
-  background-image: url("../img/back_2048.png");
+  background-image: url("../img/back_768x1024.png");
   background-repeat:no-repeat;
   background-position:center center;
   -o-background-size: 100% 100%, auto;

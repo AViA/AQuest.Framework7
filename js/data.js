@@ -9,7 +9,7 @@ var SData = [
   },
   {
     id: '1',
-    text: 'To sit a little bit on a stub and calm down is the most rational behaviour in this situation. It is great that Billy\'s mom is a practical woman — she put in his backpack a flashlight, some food, water and a little box of medecines. Of course nobody plans to get lost in the forest, but it is always better to be prepared. So, no panic and a supply of necessary things is a good beginning. What to do then?',
+    text: 'To sit a little bit on a stub and calm down is the most rational behaviour in this situation. It is great that Billy\'s mom is a practical woman - she put in his backpack a flashlight, some food, water and a little box of medecines. Of course nobody plans to get lost in the forest, but it is always better to be prepared. So, no panic and a supply of necessary things is a good beginning. What to do then?',
     case1: 'I should stay here and wait for parents or rescuers.',
     case1Link: '3',
     case2: 'I am not supposed to go very far, so I can try to find the path by myself.',
@@ -105,7 +105,7 @@ var SData = [
   },
   {
     id: '13',
-    text: 'There are a lot of food in the forest — mushrooms and berries. But you can eat only those, that you know. Don\'t eat strange mushrooms and berries, they can be poisonous. So what should you do now?',
+    text: 'There are a lot of food in the forest - mushrooms and berries. But you can eat only those, that you know. Don\'t eat strange mushrooms and berries, they can be poisonous. So what should you do now?',
     case1: 'Go back.',
     case1Link: '2',
     case2: 'Stay here.',

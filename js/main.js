@@ -27,15 +27,26 @@ var mainView = AQuest.addView('.view-main', {
   domCache: true
 });
 
+var StoryData = JSON.parse(localStorage.getItem('data'));
+
+/*Init Audio*/
+var audio;
+window.addEventListener("deviceready", function() {
+  audio = new Media('mus/forest-quest-music.wav');
+  audio.loop('on');
+  audio.volume(0.5);
+  audio.play();
+}, false);
+/*! End*/
+
 var mainOptions = $$('.main-options-button')[0];
 var playingOptions = $$('.right-navbar-custom-bg')[0];
 new Tap(mainOptions);
 new Tap(playingOptions);
-mainOptions.addEventListener('tap', function (e) {showOptions();});
-playingOptions.addEventListener('tap', function (e) {showOptions();});
+mainOptions.addEventListener('tap', function (e) { e.preventDefault(); showOptions();});
+playingOptions.addEventListener('tap', function (e) { e.preventDefault(); showOptions();});
 
-var StoryData = JSON.parse(localStorage.getItem('data'));
-
+var audioVolumeValue = 0.5;
 function showOptions() {
   AQuest.modal({
     title: 'OPTIONS',
@@ -50,20 +61,21 @@ function showOptions() {
       }
     ]
   });
-  $$('#range').prop('value', audio.volume);
+
+  $$('#range').prop('value', audioVolumeValue);
+
   var volumeEvent = $$('#range')[0];
   new Tap(volumeEvent);
-  volumeEvent.addEventListener('touchmove', function (e) { audio.volume = this.value; });
-  volumeEvent.addEventListener('tap', function (e) { audio.volume = this.value; });
+  volumeEvent.addEventListener('touchmove', function (e) { audio.volume(this.value); audioVolumeValue = this.value; });
+  volumeEvent.addEventListener('tap', function (e) { audio.volume(this.value); audioVolumeValue = this.value; });
 }
 
 
 var navigationId = 0;
 
-$$('.case-custom-bg').html(StoryData[navigationId].text)
-$$('#case1').html(StoryData[navigationId].case1)
-$$('#case2').html(StoryData[navigationId].case2)
-
+$$('.case-custom-bg').html(StoryData[navigationId].text);
+$$('#case1').html(StoryData[navigationId].case1);
+$$('#case2').html(StoryData[navigationId].case2);
 
 $$(document).on('pageInit', '.page[data-page="playing"]', function (e) {
     if ($$('#case1').height() > $$('#case2').height()) {
@@ -73,13 +85,7 @@ $$(document).on('pageInit', '.page[data-page="playing"]', function (e) {
     }
 })
 
-
-var leftOptionClick = $$('#case1')[0];
-var rightOptionClick = $$('#case2')[0];
-new Tap(leftOptionClick);
-new Tap(rightOptionClick);
-leftOptionClick.addEventListener('tap', function (e) {goInStory(e.srcElement);});
-rightOptionClick.addEventListener('tap', function (e) {goInStory(e.srcElement);});
+newGame();
 
 function goInStory(elem) {
   if (elem.id == 'case1') {
@@ -136,9 +142,31 @@ function checkEndGame() {
       });
       answerTouchEnd.addEventListener('touchend', function (e) {
         $$(this).css('background', 'rgba(44,143,175,0.75)');
+        newGame();
       });
     }, 800);
     return true;
   }
   return false;
+}
+
+function newGame() {
+  setTimeout(function() {
+    navigationId = 0;
+    $$('.content-block .row').html(
+      '<div class="col-50 no-gutter answers-col"><div class="answers-span" id="case1"></div></div>' +
+      '<div class="col-50 no-gutter answers-col"><div class="answers-span" id="case2"></div></div>'
+    );
+
+    $$('.case-custom-bg').html(StoryData[navigationId].text);
+    $$('#case1').html(StoryData[navigationId].case1);
+    $$('#case2').html(StoryData[navigationId].case2);
+
+    var leftOptionClick = $$('#case1')[0];
+    var rightOptionClick = $$('#case2')[0];
+    new Tap(leftOptionClick);
+    new Tap(rightOptionClick);
+    leftOptionClick.addEventListener('tap', function (e) {goInStory(e.srcElement);});
+    rightOptionClick.addEventListener('tap', function (e) {goInStory(e.srcElement);});
+  }, 200);
 }
