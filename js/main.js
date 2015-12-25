@@ -191,7 +191,7 @@ function checkEndGame() {
     setTimeout(function(){
       $$('.content-block .row').html(
           '<div class="col-100 answers-col answers-span">' +
-            '<div class="answ-center">Teh end!</div>' +
+            '<div class="answ-center">The end!</div>' +
           '</div>'
       );
 

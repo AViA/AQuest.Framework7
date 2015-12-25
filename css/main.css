@@ -16,6 +16,12 @@ body {
   margin-right: 6px;
 }
 
+.decide {
+  text-align: center;
+  text-shadow: #363535 3px 3px 5px;
+  font-variant: small-caps;
+}
+
 /* 1.1 Main Page layout*/
 .main-custom-bg {
   background-image: url("../img/back_768x1024.png");
