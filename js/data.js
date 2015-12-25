@@ -1,4 +1,11 @@
-var SData = [
+var interfaceText_EN = {
+  mainPagePlayButton: 'Begin Adventure',
+  mainPageContinueButton: 'Continue Adventure',
+  modalOptionsTitle: 'OPTIONS',
+  modalOptionsText: 'VOLUME',
+}
+
+var sData_EN = [
   {
     id: '0',
     text: 'During the summertime the most pleasant activity is to go to the forest to pick some mushrooms or just to walk. So little Billy with his sister Patricia and his mother decided as well to make a small trip in the forest.  But something wrong has happened - Patricia was bitten by wasp. While her mother tried to help her treating a wound and calming her, Billy has stood out of the path. In the begining he had an impression that nothing bad had happened and that he could easlily find the way back. However, 5, 10 and even 15 minutes passed, but he stilll could not find the way to the path. What can the little boy do all alone in the forest, when everything around looks so frightening and strange?',
@@ -121,4 +128,5 @@ var SData = [
   },
 ];
 
-localStorage.setItem('data', JSON.stringify(SData));
+localStorage.setItem('data', JSON.stringify(sData_EN));
+localStorage.setItem('interfaceText_EN', JSON.stringify(interfaceText_EN));

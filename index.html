@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/framework7.ios.min.css">
   <link rel="stylesheet" href="css/main.css">
 </head>
-<body>
+<body class="statbar-overlay">
   <div class="views">
     <div class="view view-main">
       <div class="pages">
@@ -28,8 +28,16 @@
           </div>
         </div>
         <div class="page cached main-custom-bg" data-page="home">
-          <a href="#playing" class="button button-big button-fill main-play-button"><span class="test_">Play</span></a>
-          <div class="button button-big button-fill color-orange main-options-button"><span class="test_">Options</span></div>
+          <div class="page-content">
+            <div class="navbar navbar-custom-bg">
+              <div class="navbar-inner navbar-inner-no-padding">
+                <div class="right" id="crunch">
+                <a href="" class="link right-navbar-custom-bg"></a>
+                </div>
+              </div>
+            </div>
+          <div class="main-play-button"></div>
+        </div>
           <div class="banner">
             <span class="temp-banner-text">Banner</span>
           </div>
@@ -47,11 +55,7 @@
               </div>
             </div>
             <div class="content-block inset">
-              <div class="content-block-inner case-custom-bg">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                   Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+              <div class="content-block-inner case-custom-bg"></div>
             </div>
             <div class="content-block answers-block">
               <div class="row">

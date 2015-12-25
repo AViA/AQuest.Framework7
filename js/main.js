@@ -1,6 +1,12 @@
-window.addEventListener("deviceready", function() {
-  JSAPI.KeepScreenOn(); // Cuz library loading too long, so we'll use it when it loads
-});
+var audio, audioVolumeValue = 0.75;
+
+setTimeout( function() {
+  JSAPI.keepScreenOn(); // Cuz library loading too long, so we'll use it when it loads
+  audio = new Media('mus/forest-quest-music.wav');
+  audio.loop('on');
+  audio.volume(audioVolumeValue);
+  audio.play(); // We start to play audio when loader page ends
+}, 750);
 
 var AQuest = new Framework7({
   modalTemplate: '<div class="modal {{#unless buttons}}modal-no-buttons{{/unless}}">' +
@@ -33,6 +39,9 @@ var mainView = AQuest.addView('.view-main', {
 
 /*Loading text data*/
 var StoryData = JSON.parse(localStorage.getItem('data'));
+var localization = JSON.parse(localStorage.getItem('interfaceText_EN'));
+
+$$('.main-play-button').html(localization.mainPagePlayButton);
 /*! End*/
 
 /*Loader & Image Cache handling*/
@@ -41,18 +50,13 @@ bgImg.src = 'img/back_768x1024.png';
 var optionsImg = new Image();
 optionsImg.src = 'img/podlojka_option.png';
 setTimeout(function() {
-  mainView.router.load({pageName: 'home'});
-  audio.play(); // We start to play audio when loader page ends
+  mainView.router.load({pageName: 'home', reload: true});
 },750);
 /*! End*/
 
 /*Init Audio*/
-var audio, audioVolumeValue = 0.75;
-window.addEventListener("deviceready", function() {
-  audio = new Media('mus/forest-quest-music.ogg');
-  audio.loop('on');
-  audio.volume(audioVolumeValue);
-}, false);
+/*window.addEventListener("deviceready", function() {
+}, false);*/
 /*! End*/
 
 /*Fixing answer blocks height when opening playing page*/
@@ -64,22 +68,37 @@ $$(document).on('pageReinit', '.page[data-page="playing"]', function (e) {
 })
 /*! End*/
 
-/*Init Options button tap events*/
-var mainOptions = $$('.main-options-button')[0];
-var playingOptions = $$('.right-navbar-custom-bg')[0];
+var  navigationId = 0;
+
+/*Init buttons tap events*/
+var playStart = $$('.main-play-button')[0];
+var mainOptions = $$('.right-navbar-custom-bg')[0];
+var playingOptions = $$('.right-navbar-custom-bg')[1];
+new Tap(playStart);
 new Tap(mainOptions);
 new Tap(playingOptions);
-mainOptions.addEventListener('tap', function (e) { e.preventDefault(); showOptions();});
-playingOptions.addEventListener('tap', function (e) { e.preventDefault(); showOptions();});
+playStart.addEventListener('tap', function (e) {
+  e.preventDefault();
+  mainView.router.load({pageName: 'playing'});
+});
+mainOptions.addEventListener('tap', function (e) {
+  e.preventDefault();
+  showOptions();
+});
+playingOptions.addEventListener('tap', function (e) {
+  e.preventDefault();
+  showOptions();
+});
 /*! End*/
 
 /*Game Init*/
+navigationId = 0;
 newGame();
 /*! End*/
-var doubleTap = false;
+
 function newGame() {
 
-  $$('.main-play-button .test_').html('Play');
+  $$('.main-play-button').html(localization.mainPagePlayButton);
 
   setTimeout(function() {
     navigationId = 0;
@@ -122,8 +141,8 @@ function newGame() {
 
 function showOptions() {
   AQuest.modal({
-    title: 'OPTIONS',
-    text: 'VOLUME',
+    title: localization.modalOptionsTitle,
+    text: localization.modalOptionsText,
     afterText: '<div class="range-slider-custom">' +
           '<input type="range" id="range" min="0" max="1" value=".5" step=".01">' +
         '</div>',
@@ -139,8 +158,8 @@ function showOptions() {
 
   var volumeEvent = $$('#range')[0];
   new Tap(volumeEvent);
-  volumeEvent.addEventListener('touchmove', function (e) { audio.volume(this.value); audioVolumeValue = this.value; });
   volumeEvent.addEventListener('tap', function (e) { audio.volume(this.value); audioVolumeValue = this.value; });
+  volumeEvent.addEventListener('touchmove', function (e) { audio.volume(this.value); audioVolumeValue = this.value; });
 }
 
 function goInStory(elem) {
@@ -164,7 +183,7 @@ function goInStory(elem) {
 }
 
 function checkEndGame() {
-  if (navigationId !== '0') { $$('.main-play-button .test_').html('Continue'); }
+  if (navigationId !== '0') { $$('.main-play-button').html(localization.mainPageContinueButton); }
 
   if (navigationId === '7' || navigationId === '8' || navigationId === '10') {
     $$('.content-block').css('opacity', '0');
@@ -181,12 +200,25 @@ function checkEndGame() {
 
       var answerTouchEnd = $$('.answers-col')[0];
       new Tap(answerTouchEnd);
+      var backNewGame = $$('.left-navbar-custom-bg')[0];
+      new Tap(backNewGame);
       answerTouchEnd.addEventListener('tap', function (e) {
+        e.preventDefault();
         setTimeout(function(){
           mainView.router.back();
           newGame();
         }, 100)
       });
+      backNewGame.addEventListener('tap', backNewGameTap, false);
+
+      function backNewGameTap(e) {
+          e.preventDefault();
+          setTimeout(function(){
+            mainView.router.back();
+            newGame();
+            backNewGame.removeEventListener('tap', backNewGameTap, false);
+          }, 100);
+      }
     }, 800);
     return true;
   }
