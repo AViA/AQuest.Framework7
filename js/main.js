@@ -49,7 +49,7 @@ setTimeout(function() {
 /*Init Audio*/
 var audio, audioVolumeValue = 0.75;
 window.addEventListener("deviceready", function() {
-  audio = new Media('mus/forest-quest-music.wav');
+  audio = new Media('mus/forest-quest-music.ogg');
   audio.loop('on');
   audio.volume(audioVolumeValue);
 }, false);
