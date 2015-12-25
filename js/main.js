@@ -84,8 +84,6 @@ function newGame() {
   setTimeout(function() {
     navigationId = 0;
     $$('.content-block .row').html(
-      /*'<div class="col-50 no-gutter answers-col"><div class="answers-span" id="case1"></div></div>' +
-      '<div class="col-50 no-gutter answers-col"><div class="answers-span" id="case2"></div></div>'*/
       '<div class="col-50 no-gutter answers-col answers-span"><div class="answ-center" id="case1"></div></div>' +
       '<div class="col-50 no-gutter answers-col answers-span"><div class="answ-center" id="case2"></div></div>'
     );
@@ -155,21 +153,11 @@ function goInStory(elem) {
     if (checkEndGame()) {return;}
   }
 
-  /*$$(elem).css('background', 'rgba(0,122,255,.15)');
-  setTimeout(function(){
-    $$(elem).css('background', 'rgba(44,143,175,0.75)');
-  }, 120);*/
-
   setTimeout(function(){
     $$('.case-custom-bg').html(StoryData[navigationId].text);
     $$('#case1').html(StoryData[navigationId].case1);
     $$('#case2').html(StoryData[navigationId].case2);
 
-    /*if (case1Height > case2Height) {
-      $$('#case2').css('height', case1Height);
-    } else {
-      $$('#case1').css('height', case2Height);
-    }*/
     fixAnswerBlockHeights();
     setTimeout(function(){ $$('.content-block').css('opacity', '1'); }, 10);
   }, 800);
@@ -193,12 +181,6 @@ function checkEndGame() {
 
       var answerTouchEnd = $$('.answers-col')[0];
       new Tap(answerTouchEnd);
-      /*answerTouchEnd.addEventListener('touchstart', function (e) {
-        $$(this).css('background', 'rgba(0,122,255,.15)');
-      });
-      answerTouchEnd.addEventListener('touchend', function (e) {
-        $$(this).css('background', 'rgba(44,143,175,0.75)');
-      });*/
       answerTouchEnd.addEventListener('tap', function (e) {
         setTimeout(function(){
           mainView.router.back();
